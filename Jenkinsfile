@@ -1,0 +1,27 @@
+pipeline{
+    agent any
+    stages{
+        stage("Checkout"){
+            steps{
+                checkout scm
+            }
+            
+        }
+        stage("Restore dependencies"){
+            steps {
+              sh 'dotnet restore'
+            }
+        }
+        stage("Build the project"){
+            steps {
+              sh 'dotnet build --no-restore'
+            }
+        }
+        stage("Test the project"){
+            steps {
+                sh 'dotnet test --no-build --verbosity normal'
+            }
+        }
+    }
+    
+}
